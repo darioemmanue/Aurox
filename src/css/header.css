@@ -1,0 +1,71 @@
+header {
+	font-family: "Inter", sans-serif;
+	letter-spacing: 0.4px;
+}
+
+/* 🔹 NAV LINKS */
+.nav-link::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	bottom: -5px;
+	width: 0%;
+	height: 2px;
+	background: linear-gradient(to right, #38bdf8, #2563eb);
+	transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+	width: 100%;
+}
+
+/* 🔹 LOGO GLOW */
+.logo-glow:hover {
+	filter: drop-shadow(0 0 10px rgba(56, 189, 248, 0.6))
+		drop-shadow(0 0 25px rgba(59, 130, 246, 0.5));
+}
+
+/* 🔹 BOTÓN MODERNO */
+.button-modern {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+	transition: all 0.4s ease;
+	border-radius: 9999px;
+}
+
+.button-modern::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	background: linear-gradient(90deg, #38bdf8, #2563eb);
+	opacity: 0;
+	transition: opacity 0.4s ease;
+	z-index: 0;
+}
+
+.button-modern:hover::before {
+	opacity: 0.25;
+}
+
+.button-modern span {
+	position: relative;
+	z-index: 1;
+}
+
+.button-modern:hover {
+	box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+	transform: translateY(-2px);
+}
+
+/* 🔹 Responsive */
+@media (max-width: 768px) {
+	.nav-link {
+		font-size: 1.1rem;
+	}
+
+	.button-modern {
+		font-size: 1rem;
+	}
+}

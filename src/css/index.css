@@ -1,0 +1,180 @@
+@import "tailwindcss";
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	font-family: "Inter", sans-serif;
+	background-color: #f9fafb;
+	color: #111827;
+	margin: 0;
+	overflow-x: hidden;
+}
+
+/* 🌀 Scrollbar elegante */
+::-webkit-scrollbar {
+	width: 2px;
+	background-color: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+	background: linear-gradient(180deg, #2563eb, #0ea5e9);
+	border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+	background: linear-gradient(180deg, #1d4ed8, #0284c7);
+}
+
+/* ✨ Secciones */
+section {
+	position: relative;
+	z-index: 1;
+	transition: all 0.3s ease;
+}
+
+/* 🧠 Hero */
+section:first-of-type {
+	background: linear-gradient(
+		to bottom,
+		rgba(0, 0, 0, 0.7),
+		rgba(15, 23, 42, 0.8)
+	);
+	color: white;
+}
+
+section h1,
+section h2,
+section h3 {
+	letter-spacing: -0.5px;
+}
+
+section h1 {
+	font-size: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+section h2 {
+	color: #1e3a8a;
+}
+
+/* 💫 Cards */
+.card {
+	background: white;
+	border-radius: 1.25rem;
+	box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+	transition: all 0.3s ease;
+}
+
+.card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 8px 25px rgba(37, 99, 235, 0.2);
+}
+
+/* 🔘 Botones */
+button,
+a.btn,
+a.button {
+	display: inline-block;
+	cursor: pointer;
+	border: none;
+	transition: all 0.3s ease;
+	font-weight: 600;
+	border-radius: 9999px;
+	text-decoration: none;
+}
+
+button:hover,
+a.btn:hover,
+a.button:hover {
+	transform: scale(1.05);
+}
+
+/* 🎯 Hero Buttons */
+a.bg-gradient-to-r {
+	transition: all 0.3s ease-in-out;
+}
+a.bg-gradient-to-r:hover {
+	box-shadow: 0 0 25px rgba(56, 189, 248, 0.6);
+}
+
+/* 📬 Inputs y Formularios */
+input,
+textarea {
+	outline: none;
+	font-size: 1rem;
+	border: 1px solid #d1d5db;
+	border-radius: 0.75rem;
+	background-color: white;
+	transition: all 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+	border-color: #3b82f6;
+	box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* ✍️ Placeholder con estilo */
+::placeholder {
+	color: #9ca3af;
+}
+
+/* ⚡ Secciones con gradiente */
+
+/* 💬 Testimonios */
+.testimonial {
+	background: white;
+	border-radius: 1rem;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+	transition: transform 0.3s ease;
+}
+
+.testimonial:hover {
+	transform: translateY(-5px);
+}
+
+/* 💎 Footer */
+footer {
+	background: #0f172a;
+	color: #e2e8f0;
+}
+
+footer a {
+	color: #94a3b8;
+	transition: color 0.3s ease;
+}
+
+footer a:hover {
+	color: #38bdf8;
+}
+
+/* 🌈 Animación de Fade-Up para entrada suave */
+@keyframes fadeUp {
+	from {
+		opacity: 0;
+		transform: translateY(40px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+.fade-up {
+	animation: fadeUp 0.8s ease forwards;
+}
+
+/* 📱 Responsive Ajustes */
+@media (max-width: 768px) {
+	h1 {
+		font-size: 2rem !important;
+	}
+
+	section {
+		padding: 4rem 1.5rem;
+	}
+
+	.grid {
+		gap: 1.5rem;
+	}
+}
