@@ -7,19 +7,18 @@ const Header = () => {
 	const [menuOpen, setMenuOpen] = useState(false);
 	const [hidden, setHidden] = useState(false);
 	const [lastScrollY, setLastScrollY] = useState(0);
-	const ignoreHideRef = useRef(false); // 👉 evita ocultar cuando se hace clic en un link
+	const ignoreHideRef = useRef(false);
 
 	useEffect(() => {
 		const handleScroll = () => {
 			const currentScroll = window.scrollY;
 			setScrolled(currentScroll > 40);
 
-			if (ignoreHideRef.current) return; // ⛔ no ocultar mientras hay scroll automático
-
+			if (ignoreHideRef.current) return;
 			if (currentScroll > lastScrollY && currentScroll > 100) {
-				setHidden(true); // hacia abajo → ocultar header
+				setHidden(true);
 			} else {
-				setHidden(false); // hacia arriba → mostrar header
+				setHidden(false);
 			}
 			setLastScrollY(currentScroll);
 		};
@@ -28,10 +27,9 @@ const Header = () => {
 		return () => window.removeEventListener("scroll", handleScroll);
 	}, [lastScrollY]);
 
-	// 🚀 Función para manejar clics en enlaces del header
 	const handleHeaderClick = (e, target) => {
 		e.preventDefault();
-		ignoreHideRef.current = true; // Evita ocultar temporalmente
+		ignoreHideRef.current = true;
 		const section = document.querySelector(target);
 		if (section) {
 			window.scrollTo({
@@ -39,45 +37,43 @@ const Header = () => {
 				behavior: "smooth",
 			});
 		}
-		setTimeout(() => {
-			ignoreHideRef.current = false; // Vuelve al comportamiento normal
-		}, 1000);
+		setTimeout(() => (ignoreHideRef.current = false), 1000);
 	};
 
 	return (
 		<motion.header
 			initial={{ y: -80 }}
 			animate={{ y: hidden ? -90 : 0 }}
-			transition={{ duration: 0.5, ease: "easeOut" }}
-			className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+			transition={{ duration: 0.4, ease: "easeOut" }}
+			className={`fixed top-0 left-0 w-full z-[60] transition-all duration-500 ${
 				scrolled ? "bg-white/90 shadow-md backdrop-blur-lg" : "bg-transparent"
 			}`}>
-			<div className="max-w-7xl mx-auto flex items-center justify-between px-6 py-4">
-				{/* 🔷 LOGO */}
+			<div className="max-w-7xl mx-auto flex items-center justify-between px-5 sm:px-8 py-4">
+				{/* LOGO */}
 				<div className="flex items-center gap-3">
 					<img
 						src="/Aurox.png"
 						alt="Aurox Logo"
-						className="w-11 h-11 object-contain hover:scale-110 transition-transform duration-300 logo-glow"
+						className="w-10 h-10 sm:w-11 sm:h-11 object-contain hover:scale-110 transition-transform duration-300 logo-glow"
 					/>
 					<h1
-						className={`text-2xl font-extrabold tracking-tight ${
+						className={`text-xl sm:text-2xl font-extrabold tracking-tight ${
 							scrolled ? "text-slate-900" : "text-white"
 						}`}>
 						Aurox
 					</h1>
 				</div>
 
-				{/* 🧭 NAV - Desktop */}
-				<nav className="hidden md:flex gap-10">
+				{/* NAV (Desktop) */}
+				<nav className="hidden md:flex gap-8 lg:gap-10">
 					{["Inicio", "Beneficios", "Funcionalidades", "Contacto"].map(
-						(item, i) => (
+						(item) => (
 							<motion.a
 								whileHover={{ scale: 1.1 }}
-								key={i}
+								key={item}
 								href={`#${item.toLowerCase()}`}
 								onClick={(e) => handleHeaderClick(e, `#${item.toLowerCase()}`)}
-								className={`relative text-sm font-medium tracking-wide transition-colors nav-link ${
+								className={`relative text-sm font-medium tracking-wide nav-link ${
 									scrolled
 										? "text-slate-800 hover:text-sky-600"
 										: "text-white hover:text-sky-300"
@@ -88,27 +84,27 @@ const Header = () => {
 					)}
 				</nav>
 
-				{/* 🔘 CTA Button */}
+				{/* CTA (solo desktop) */}
 				<motion.button
-					whileHover={{ scale: 1.08 }}
+					whileHover={{ scale: 1.05 }}
 					whileTap={{ scale: 0.97 }}
 					onClick={(e) => handleHeaderClick(e, "#inicio")}
-					className={`hidden md:block relative px-7 py-2.5 rounded-full font-semibold transition-all duration-500 overflow-hidden button-modern ${
+					className={`hidden md:block px-6 py-2.5 rounded-full font-semibold transition-all button-modern ${
 						scrolled
-							? "bg-gradient-to-r from-[#2563eb] to-[#0ea5e9] text-white shadow-lg hover:shadow-blue-500/40"
-							: "bg-transparent border-2 border-white text-white hover:bg-white/10"
+							? "bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-md hover:shadow-blue-400/40"
+							: "border-2 border-white text-white hover:bg-white/10"
 					}`}>
-					<span className="relative z-10">Empezar</span>
+					Empezar
 				</motion.button>
 
-				{/* 📱 Mobile Menu Button */}
-				<div className="md:hidden flex items-center">
+				{/* Botón Hamburguesa */}
+				<div className="md:hidden">
 					<motion.button
 						whileTap={{ scale: 0.9 }}
 						onClick={() => setMenuOpen(!menuOpen)}
-						className={`${
+						className={`transition-colors ${
 							scrolled ? "text-slate-800" : "text-white"
-						} focus:outline-none`}>
+						}`}>
 						{menuOpen ? (
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
@@ -142,37 +138,57 @@ const Header = () => {
 				</div>
 			</div>
 
-			{/* 📱 Mobile Menu Dropdown */}
+			{/* MENU LATERAL (slide desde la derecha) */}
 			<AnimatePresence>
 				{menuOpen && (
-					<motion.nav
-						initial={{ opacity: 0, y: -20 }}
-						animate={{ opacity: 1, y: 0 }}
-						exit={{ opacity: 0, y: -20 }}
-						className="md:hidden bg-white/95 backdrop-blur-md text-slate-900 flex flex-col items-center gap-6 py-6 shadow-lg border-t border-slate-300">
-						{["Inicio", "Beneficios", "Funcionalidades", "Contacto"].map(
-							(item, i) => (
-								<a
-									key={i}
-									href={`#${item.toLowerCase()}`}
-									onClick={(e) => {
-										setMenuOpen(false);
-										handleHeaderClick(e, `#${item.toLowerCase()}`);
-									}}
-									className="text-lg font-medium hover:text-sky-600 transition">
-									{item}
-								</a>
-							)
-						)}
-						<button
-							onClick={(e) => {
-								setMenuOpen(false);
-								handleHeaderClick(e, "#inicio");
-							}}
-							className="px-6 py-2 bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-full font-semibold hover:shadow-blue-500/40 transition-all">
-							Empezar
-						</button>
-					</motion.nav>
+					<>
+						{/* Overlay */}
+						<motion.div
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 0.5 }}
+							exit={{ opacity: 0 }}
+							className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+							onClick={() => setMenuOpen(false)}
+						/>
+						{/* Panel */}
+						<motion.nav
+							initial={{ x: "100%" }}
+							animate={{ x: 0 }}
+							exit={{ x: "100%" }}
+							transition={{ type: "spring", stiffness: 80 }}
+							className="fixed top-0 right-0 w-3/4 sm:w-2/5 h-full bg-white text-slate-900 shadow-2xl flex flex-col items-center justify-center gap-6 z-50">
+							{["Inicio", "Beneficios", "Funcionalidades", "Contacto"].map(
+								(item, i) => (
+									<motion.a
+										key={i}
+										initial={{ opacity: 0, x: 40 }}
+										animate={{ opacity: 1, x: 0 }}
+										transition={{ delay: i * 0.1 }}
+										whileHover={{ scale: 1.1 }}
+										href={`#${item.toLowerCase()}`}
+										onClick={(e) => {
+											setMenuOpen(false);
+											handleHeaderClick(e, `#${item.toLowerCase()}`);
+										}}
+										className="text-lg font-medium hover:text-sky-600 transition">
+										{item}
+									</motion.a>
+								)
+							)}
+							<motion.button
+								initial={{ opacity: 0, y: 30 }}
+								animate={{ opacity: 1, y: 0 }}
+								transition={{ delay: 0.5 }}
+								whileHover={{ scale: 1.05 }}
+								onClick={(e) => {
+									setMenuOpen(false);
+									handleHeaderClick(e, "#inicio");
+								}}
+								className="mt-6 px-6 py-3 bg-gradient-to-r from-sky-500 to-blue-600 text-white rounded-full font-semibold shadow-md hover:shadow-blue-400/30 transition">
+								Empezar
+							</motion.button>
+						</motion.nav>
+					</>
 				)}
 			</AnimatePresence>
 		</motion.header>

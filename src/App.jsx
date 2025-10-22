@@ -1,8 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
-	Menu,
-	X,
+	ChevronUp,
 	Rocket,
 	TrendingUp,
 	Settings,
@@ -16,10 +15,9 @@ import {
 	Users,
 	CloudOff,
 	Search,
-	ChevronUp,
 	Star,
 } from "lucide-react";
-import emailjs from "emailjs-com"; // <-- Import EmailJS
+import emailjs from "emailjs-com";
 import Header from "./components/header";
 import ModeloAurox from "./components/modeloAurox";
 import "./css/App.css";
@@ -35,15 +33,11 @@ const iconMap = {
 
 const cardVariants = {
 	hidden: { opacity: 0, y: 50 },
-	visible: {
-		opacity: 1,
-		y: 0,
-		transition: { duration: 0.8, ease: "easeOut" },
-	},
+	visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
 };
 
 const container = {
-	hidden: { opacity: 1, scale: 0 },
+	hidden: { opacity: 1, scale: 0.95 },
 	visible: {
 		opacity: 1,
 		scale: 1,
@@ -52,20 +46,18 @@ const container = {
 };
 
 const Footer = () => (
-	<footer className="py-12 bg-gray-900 text-white text-center">
+	<footer className="py-10 bg-gray-900 text-white text-center">
 		<div className="max-w-7xl mx-auto px-6">
 			<a
 				href="#inicio"
-				className="text-3xl font-extrabold text-sky-400 tracking-wider mb-4 block">
+				className="text-3xl font-extrabold text-sky-400 tracking-wider mb-3 block">
 				Aurox
 			</a>
-			<p className="font-semibold mb-3 text-gray-300">
-				Tecnología local, resultados reales.
-			</p>
-			<p className="text-gray-500 mb-6">
+			<p className="text-gray-300 mb-1">Tecnología local, resultados reales.</p>
+			<p className="text-gray-500 text-sm mb-5">
 				© 2025 Aurox Software. Todos los derechos reservados.
 			</p>
-			<div className="flex justify-center gap-8 text-lg">
+			<div className="flex justify-center gap-8 text-sm">
 				<a href="#contacto" className="hover:text-sky-400 transition">
 					Contacto
 				</a>
@@ -95,7 +87,7 @@ function App() {
 		{
 			icon: "🧩",
 			title: "Adaptabilidad total",
-			text: "Personalizado para tu rubro: almacén, ferretería, distribuidora o comercio.",
+			text: "Personalizado para tu rubro: almacén, ferretería o comercio.",
 		},
 		{
 			icon: "🔒",
@@ -105,7 +97,7 @@ function App() {
 		{
 			icon: "👨‍💼",
 			title: "Soporte cercano",
-			text: "Acompañamiento y capacitación personalizada para cada cliente.",
+			text: "Capacitación y acompañamiento personalizado para cada cliente.",
 		},
 		{
 			icon: "📊",
@@ -125,265 +117,271 @@ function App() {
 		{ icon: Star, text: "Integración con lectores de código de barras" },
 	];
 
-	// ------------------- EMAILJS -------------------
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+		const form = e.target;
+		const statusEl = document.getElementById("statusMessage");
 
-		emailjs
-			.sendForm(
-				"service_2gu3toa", // <--- reemplaza con tu Service ID
-				"template_4qxc6bg", // <--- reemplaza con tu Template ID
-				e.target,
-				"2ZQUe3WecNCPsbLXq" // <--- reemplaza con tu Public Key
-			)
-			.then(
-				(result) => {
-					alert("Mensaje enviado correctamente, nos contactaremos pronto!");
-					e.target.reset();
-				},
-				(error) => {
-					alert("Error al enviar el mensaje, intenta nuevamente.");
-					console.error(error.text);
-				}
+		try {
+			await emailjs.sendForm(
+				"service_2gu3toa",
+				"template_4qxc6bg",
+				form,
+				"2ZQUe3WecNCPsbLXq"
 			);
+
+			statusEl.textContent =
+				"✅ Mensaje enviado correctamente. ¡Gracias por contactarnos!";
+			statusEl.className = "text-green-600 font-medium mt-3";
+			form.reset();
+
+			setTimeout(() => (statusEl.textContent = ""), 4000);
+		} catch (error) {
+			statusEl.textContent =
+				"❌ Error al enviar el mensaje. Intenta nuevamente.";
+			statusEl.className = "text-red-600 font-medium mt-3";
+		}
 	};
-	// -----------------------------------------------
 
 	return (
-		<div className="overflow-x-hidden font-inter bg-gray-50 text-gray-900">
+		<div className="overflow-x-hidden font-inter bg-gray-50 text-gray-900 scroll-smooth">
 			<Header />
 
+			{/* HERO SECTION */}
 			<section
 				id="inicio"
-				className="relative flex items-center justify-center text-center h-screen overflow-hidden">
-				<div className="absolute inset-0">
-					<img
-						src="/fondo.jpg"
-						alt="Fondo"
-						className="w-full h-full object-cover"
-					/>
-					<div className="absolute inset-0 bg-black/50"></div>
-				</div>
-
+				className="relative flex flex-col items-center justify-center text-center h-screen overflow-hidden bg-cover bg-center"
+				style={{ backgroundImage: "url('/fondo.jpg')" }}>
+				<div className="absolute inset-0 bg-black/50"></div>
 				<motion.div
-					className="relative z-10 px-6 max-w-4xl flex flex-col items-center"
+					className="relative z-10 px-6 max-w-3xl"
 					initial={{ opacity: 0, y: 40 }}
 					animate={{ opacity: 1, y: 0 }}
-					transition={{ duration: 1, ease: "easeOut" }}>
-					<h1 className="text-4xl md:text-5xl font-extrabold mb-6 drop-shadow-lg leading-tight">
+					transition={{ duration: 1 }}>
+					<h1 className="text-4xl md:text-5xl font-extrabold mb-6 text-white drop-shadow-md">
 						Control de Inventario Inteligente
 					</h1>
-
-					<p className="text-lg md:text-xl mb-10 text-sky-200 max-w-3xl font-light">
-						El software de gestión de stock{" "}
-						<span className="font-semibold">local y adaptable</span> que elimina
-						los errores manuales, aumenta la rentabilidad y te da precisión en
-						tiempo real.
+					<p className="text-lg md:text-xl mb-10 text-sky-100 font-light">
+						El software de gestión{" "}
+						<span className="font-semibold text-sky-300">
+							local y adaptable
+						</span>{" "}
+						que optimiza tu tiempo y maximiza resultados.
 					</p>
-
-					<div className="flex flex-col sm:flex-row gap-6 w-full justify-center">
+					<div className="flex flex-col sm:flex-row gap-6 justify-center">
 						<a
 							href="#contacto"
-							className="bg-sky-500 text-white px-8 py-4 rounded-full font-bold text-lg shadow-lg shadow-sky-500/50 hover:bg-sky-600 transition duration-300 transform hover:scale-105">
-							Solicitar Demo Gratuita
+							className="bg-sky-500 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-md hover:bg-sky-600 transition transform hover:scale-105">
+							Solicitar Demo
 						</a>
 						<a
 							href="#funcionalidades"
-							className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-gray-900 transition duration-300 transform hover:scale-105">
+							className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-gray-900 transition transform hover:scale-105">
 							Ver Funcionalidades
 						</a>
 					</div>
 				</motion.div>
 			</section>
 
+			{/* SOBRE AUROX */}
 			<section
 				id="que-es-aurox"
-				className="relative py-24 bg-white flex flex-col-reverse md:flex-row items-center justify-center gap-12 md:gap-20 px-8 md:px-16 overflow-hidden">
+				className="flex flex-col-reverse md:flex-row items-center justify-center py-24 gap-12 px-8 md:px-16 bg-white">
 				<motion.div
 					initial={{ opacity: 0, x: -50 }}
 					whileInView={{ opacity: 1, x: 0 }}
-					viewport={{ once: true, amount: 0.5 }}
-					transition={{ duration: 1.2 }}
-					className="w-full max-w-md h-[400px] md:h-[500px] relative z-10">
+					transition={{ duration: 1 }}
+					className="w-full max-w-md h-[400px] md:h-[500px]">
 					<ModeloAurox />
 				</motion.div>
 
 				<motion.div
 					initial={{ opacity: 0, x: 50 }}
 					whileInView={{ opacity: 1, x: 0 }}
-					viewport={{ once: true, amount: 0.5 }}
-					transition={{ duration: 1.2 }}
-					className="text-center md:text-left max-w-xl relative z-10 self-center">
+					transition={{ duration: 1 }}
+					className="text-center md:text-left max-w-xl">
 					<span className="text-xs font-semibold uppercase tracking-widest text-sky-500 mb-2 block">
 						SOBRE NOSOTROS
 					</span>
-					<h2 className="text-4xl sm:text-5xl font-extrabold mb-6 text-gray-900 leading-tight">
-						Aurox: La Evolución de la{" "}
-						<span className="text-sky-600">Gestión de Stock</span>
+					<h2 className="text-4xl font-extrabold mb-6 text-gray-900">
+						Aurox: <span className="text-sky-600">Gestión Inteligente</span>
 					</h2>
-					<p className="text-lg text-gray-700 leading-relaxed mb-6">
-						Aurox es un software de gestión diseñado para{" "}
-						<span className="font-semibold">
-							optimizar procesos, reducir costos
-						</span>{" "}
-						y ofrecer un control de inventario preciso en tiempo real.
+					<p className="text-gray-600 leading-relaxed mb-4">
+						Aurox es un sistema diseñado para{" "}
+						<span className="font-semibold">optimizar procesos</span> y brindar
+						un control de inventario preciso en tiempo real.
 					</p>
-					<p className="text-sky-700 font-semibold text-lg border-l-4 border-sky-400 pl-4 italic">
-						No es solo un sistema, es tu socio tecnológico que trabaja 24/7.
+					<p className="text-sky-700 font-semibold italic border-l-4 border-sky-400 pl-4">
+						Tu aliado tecnológico las 24 hs.
 					</p>
 				</motion.div>
 			</section>
 
+			{/* BENEFICIOS */}
 			<section id="beneficios" className="py-24 bg-gray-50 text-center px-6">
-				<span className="text-xs font-semibold uppercase tracking-widest text-sky-500 mb-2 block">
-					VALOR AGREGADO
-				</span>
-				<h2 className="text-4xl sm:text-5xl font-extrabold mb-16 text-gray-900">
+				<h2 className="text-4xl font-extrabold mb-16 text-gray-900">
 					Impacto en tu Negocio
 				</h2>
-
 				<motion.div
 					className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
 					variants={container}
 					initial="hidden"
-					whileInView="visible"
-					viewport={{ once: true, amount: 0.2 }}>
+					whileInView="visible">
 					{beneficios.map((b, i) => {
-						const IconComponent = iconMap[b.icon] || BarChart2;
+						const Icon = iconMap[b.icon] || BarChart2;
 						return (
 							<motion.div
 								key={i}
-								className="p-8 bg-white shadow-xl rounded-xl border border-gray-100 transition duration-500 transform hover:shadow-2xl hover:border-sky-300"
+								className="p-8 bg-white shadow-xl rounded-xl border border-gray-100 hover:shadow-2xl hover:border-sky-300 transition"
 								variants={cardVariants}>
 								<div className="p-4 inline-block bg-sky-100 text-sky-600 rounded-full mb-4">
-									<IconComponent size={32} />
+									<Icon size={32} />
 								</div>
 								<h3 className="font-bold text-2xl mb-3 text-gray-900">
 									{b.title}
 								</h3>
-								<p className="text-gray-600 leading-relaxed">{b.text}</p>
+								<p className="text-gray-600">{b.text}</p>
 							</motion.div>
 						);
 					})}
 				</motion.div>
 			</section>
 
+			{/* FUNCIONALIDADES */}
 			<section
 				id="funcionalidades"
-				className="py-24 bg-sky-600 text-white px-6">
-				<div className="max-w-7xl mx-auto text-center">
-					<span className="text-xs font-semibold uppercase tracking-widest text-sky-200 mb-2 block">
-						CARACTERÍSTICAS CLAVE
-					</span>
-					<h2 className="text-4xl sm:text-5xl font-extrabold mb-16">
-						Todo el Poder que Necesitas
-					</h2>
-
-					<motion.div
-						className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8 text-left"
-						variants={container}
-						initial="hidden"
-						whileInView="visible"
-						viewport={{ once: true, amount: 0.3 }}>
-						{funcionalidades.map((f, i) => {
-							const IconComponent = f.icon;
-							return (
-								<motion.div
-									key={i}
-									className="flex items-start space-x-4 p-4 bg-white/10 rounded-lg backdrop-blur-sm"
-									variants={cardVariants}>
-									<IconComponent
-										size={24}
-										className="text-sky-200 mt-1 flex-shrink-0"
-									/>
-									<p className="text-lg font-light">{f.text}</p>
-								</motion.div>
-							);
-						})}
-					</motion.div>
-				</div>
+				className="py-24 bg text-white px-6"
+				style={{ backgroundImage: "url('/fondo2.jpg')" }}>
+				<h2 className="text-4xl font-extrabold mb-12 text-center">
+					Todo el Poder que Necesitás
+				</h2>
+				<motion.div
+					className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto"
+					variants={container}
+					initial="hidden"
+					whileInView="visible">
+					{funcionalidades.map((f, i) => {
+						const Icon = f.icon;
+						return (
+							<motion.div
+								key={i}
+								className="flex items-start space-x-4 p-4 bg-white/10 rounded-lg backdrop-blur-sm"
+								variants={cardVariants}>
+								<Icon size={24} className="text-sky-200 mt-1" />
+								<p className="text-lg font-light">{f.text}</p>
+							</motion.div>
+						);
+					})}
+				</motion.div>
 			</section>
 
-			<section id="contacto" className="py-24 bg-white text-center px-6">
-				<span className="text-xs font-semibold uppercase tracking-widest text-sky-500 mb-2 block">
-					EMPECEMOS HOY
-				</span>
-				<h2 className="text-4xl font-extrabold mb-12 text-gray-900">
+			{/* CONTACTO */}
+			<section
+				id="contacto"
+				className="py-24 bg-gradient-to-b from-white to-gray-100 text-center px-6">
+				<motion.h2
+					initial={{ opacity: 0, y: 40 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6 }}
+					className="text-4xl font-extrabold mb-10 text-gray-900">
 					Pedí tu <span className="text-sky-600">Demo Personalizada</span>
-				</h2>
-				<p className="max-w-xl mx-auto text-lg text-gray-600 mb-10">
-					Contanos un poco sobre tu negocio y te contactaremos para coordinar
-					una presentación gratuita de Aurox.
-				</p>
+				</motion.h2>
 
-				<form
+				<motion.form
+					initial={{ opacity: 0, y: 40 }}
+					whileInView={{ opacity: 1, y: 0 }}
+					transition={{ duration: 0.6 }}
 					onSubmit={handleSubmit}
-					className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-8 bg-gray-50 rounded-xl shadow-lg">
-					<input
-						type="text"
-						name="name"
-						placeholder="Nombre y Apellido"
-						className="p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 transition"
-					/>
-					<input
-						type="text"
-						name="empresa"
-						placeholder="Empresa / Rubro"
-						className="p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 transition"
-					/>
-					<input
-						type="email"
-						name="email"
-						placeholder="Email de Contacto"
-						className="p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 transition"
-					/>
-					<input
-						type="tel"
-						name="telefono"
-						placeholder="Teléfono (Ej: +54 11 XXXX XXXX)"
-						className="p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-sky-500 transition"
-					/>
-					<textarea
-						name="mensaje"
-						placeholder="Mensaje: ¿Cuál es tu mayor desafío de stock hoy?"
-						rows="4"
-						className="p-4 border border-gray-300 rounded-lg md:col-span-2 focus:ring-2 focus:ring-sky-500 transition"></textarea>
-					<button
-						type="submit"
-						className="bg-sky-600 text-white px-8 py-4 rounded-full font-bold text-lg md:col-span-2 hover:bg-sky-700 transition duration-300 transform hover:scale-[1.01] shadow-lg shadow-sky-500/30">
-						Quiero mi Demo de Aurox
-					</button>
-				</form>
+					className="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 p-8 bg-white rounded-2xl shadow-xl border border-gray-100 relative overflow-hidden">
+					{/* Efecto de Luz Suave */}
+					<div className="absolute inset-0 bg-gradient-to-tr from-sky-50 via-transparent to-white opacity-60 pointer-events-none"></div>
 
-				<div className="mt-12 text-gray-700">
-					<p className="mb-2">📍 Morón Norte, Buenos Aires, Argentina</p>
-					<p className="mb-2">
-						📞{" "}
-						<a
-							href="tel:+5411xxxxxxxx"
-							className="text-sky-600 hover:underline">
-							WhatsApp: +54 11 XXXX XXXX
-						</a>
-					</p>
-					<p>
-						📧{" "}
-						<a
-							href="mailto:contacto@aurox.com.ar"
-							className="text-sky-600 hover:underline">
-							contacto@aurox.com.ar
-						</a>
-					</p>
-				</div>
+					{/* Campo: Nombre */}
+					<div className="floating-group">
+						<input
+							name="name"
+							type="text"
+							required
+							className="floating-input"
+							placeholder=" "
+						/>
+						<label className="floating-label">Nombre y Apellido *</label>
+					</div>
+
+					{/* Campo: Empresa */}
+					<div className="floating-group">
+						<input
+							name="empresa"
+							type="text"
+							className="floating-input"
+							placeholder=" "
+						/>
+						<label className="floating-label">Empresa / Rubro</label>
+					</div>
+
+					{/* Campo: Email */}
+					<div className="floating-group">
+						<input
+							name="email"
+							type="email"
+							required
+							className="floating-input"
+							placeholder=" "
+							pattern="^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$"
+							title="Ingresa un correo válido"
+						/>
+						<label className="floating-label">Correo electrónico *</label>
+					</div>
+
+					{/* Campo: Teléfono */}
+					<div className="floating-group">
+						<input
+							name="telefono"
+							type="tel"
+							pattern="^[0-9()+\\s-]{6,20}$"
+							title="Solo números y símbolos válidos"
+							className="floating-input"
+							placeholder=" "
+						/>
+						<label className="floating-label">Teléfono</label>
+					</div>
+
+					{/* Campo: Mensaje */}
+					<div className="floating-group md:col-span-2">
+						<textarea
+							name="mensaje"
+							rows="4"
+							required
+							className="floating-input resize-none"
+							placeholder=" "></textarea>
+						<label className="floating-label">Mensaje *</label>
+					</div>
+
+					{/* Botón Enviar */}
+					<motion.button
+						whileHover={{ scale: 1.05 }}
+						whileTap={{ scale: 0.95 }}
+						type="submit"
+						className="md:col-span-2 bg-sky-600 hover:bg-sky-700 text-white font-semibold py-4 rounded-lg transition-all shadow-lg hover:shadow-xl">
+						Enviar Mensaje
+					</motion.button>
+
+					<motion.p
+						id="statusMessage"
+						className="md:col-span-2 text-sm mt-3 text-gray-600"
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						transition={{ duration: 0.4 }}></motion.p>
+				</motion.form>
 			</section>
 
 			<Footer />
 
 			<motion.a
 				href="#inicio"
-				className="fixed bottom-6 right-6 p-3 bg-sky-600 text-white rounded-full shadow-lg hover:bg-sky-700 transition z-50"
+				className="fixed bottom-6 right-6 p-3 bg-sky-600 text-white rounded-full shadow-lg hover:bg-sky-700 transition"
 				whileHover={{ scale: 1.1 }}
-				whileTap={{ scale: 0.9 }}
-				aria-label="Volver al inicio">
+				whileTap={{ scale: 0.9 }}>
 				<ChevronUp size={24} />
 			</motion.a>
 		</div>

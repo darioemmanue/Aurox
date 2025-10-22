@@ -53,10 +53,6 @@ section h1 {
 	font-size: clamp(2.5rem, 5vw, 4.5rem);
 }
 
-section h2 {
-	color: #1e3a8a;
-}
-
 /* 💫 Cards */
 .card {
 	background: white;

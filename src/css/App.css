@@ -1,1 +1,51 @@
 @import "tailwindcss";
+
+/* ===============================
+   ✨ Floating Label Inputs
+=============================== */
+.floating-group {
+	position: relative;
+	width: 100%;
+}
+
+.floating-input {
+	width: 100%;
+	padding: 1.5rem 1rem 0.5rem 1rem;
+	border: 1px solid #d1d5db;
+	border-radius: 0.5rem;
+	background: transparent;
+	color: #1f2937;
+	font-size: 1rem;
+	outline: none;
+	transition: all 0.25s ease;
+}
+
+.floating-input:focus {
+	border-color: #38bdf8;
+	box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.2);
+}
+
+.floating-label {
+	position: absolute;
+	left: 1rem;
+	top: 1.1rem;
+	color: #9ca3af;
+	font-size: 1rem;
+	pointer-events: none;
+	transition: all 0.25s ease;
+}
+
+.floating-input:focus + .floating-label,
+.floating-input:not(:placeholder-shown) + .floating-label {
+	top: 0.4rem;
+	left: 0.9rem;
+	font-size: 0.8rem;
+	color: #0284c7;
+	background: white;
+	padding: 0 0.25rem;
+}
+
+/* textarea compatibilidad */
+textarea.floating-input {
+	min-height: 120px;
+}

@@ -53,7 +53,7 @@ export default function ModeloAurox() {
 				<OrbitControls
 					enableZoom={false} // Deshabilitar zoom
 					enablePan={false} // Deshabilitar paneo
-					enableRotate={true} // Deshabilitar la rotación manual del usuario
+					enableRotate={false} // Deshabilitar la rotación manual del usuario
 					autoRotate={false} // Desactivar la rotación automática de la CÁMARA
 				/>
 			</Canvas>
