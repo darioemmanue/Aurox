@@ -174,11 +174,6 @@ function App() {
 							className="bg-sky-500 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-md hover:bg-sky-600 transition transform hover:scale-105">
 							Solicitar Demo
 						</a>
-						<a
-							href="#funcionalidades"
-							className="border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white hover:text-gray-900 transition transform hover:scale-105">
-							Ver Funcionalidades
-						</a>
 					</div>
 				</motion.div>
 			</section>

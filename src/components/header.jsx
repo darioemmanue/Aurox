@@ -66,22 +66,20 @@ const Header = () => {
 
 				{/* NAV (Desktop) */}
 				<nav className="hidden md:flex gap-8 lg:gap-10">
-					{["Inicio", "Beneficios", "Funcionalidades", "Contacto"].map(
-						(item) => (
-							<motion.a
-								whileHover={{ scale: 1.1 }}
-								key={item}
-								href={`#${item.toLowerCase()}`}
-								onClick={(e) => handleHeaderClick(e, `#${item.toLowerCase()}`)}
-								className={`relative text-sm font-medium tracking-wide nav-link ${
-									scrolled
-										? "text-slate-800 hover:text-sky-600"
-										: "text-white hover:text-sky-300"
-								}`}>
-								{item}
-							</motion.a>
-						)
-					)}
+					{["Inicio", "Beneficios", "Funcionalidades"].map((item) => (
+						<motion.a
+							whileHover={{ scale: 1.1 }}
+							key={item}
+							href={`#${item.toLowerCase()}`}
+							onClick={(e) => handleHeaderClick(e, `#${item.toLowerCase()}`)}
+							className={`relative text-sm font-medium tracking-wide nav-link ${
+								scrolled
+									? "text-slate-800 hover:text-sky-600"
+									: "text-white hover:text-sky-300"
+							}`}>
+							{item}
+						</motion.a>
+					))}
 				</nav>
 
 				{/* CTA (solo desktop) */}
